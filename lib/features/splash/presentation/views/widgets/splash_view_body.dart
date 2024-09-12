@@ -36,7 +36,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SvgPicture.asset(
-          AssetsDta.logo,
+          AssetsData.logo,
           width: 60,
           height: 60,
         ),
