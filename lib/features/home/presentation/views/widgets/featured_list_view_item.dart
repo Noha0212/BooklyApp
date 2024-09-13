@@ -5,13 +5,16 @@ class FeaturedListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.height * 0.2,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.amber,
-        image: const DecorationImage(
-            image: AssetImage('assets/images/Book 1 Hightligh.png')),
+    return AspectRatio(
+      aspectRatio: 2.5 / 4,
+      child: Container(
+        width: MediaQuery.of(context).size.height * 0.2,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.amber,
+          image: const DecorationImage(
+              image: AssetImage('assets/images/Book1Hightligh.png')),
+        ),
       ),
     );
   }
