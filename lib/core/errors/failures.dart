@@ -24,7 +24,7 @@ final class ServiceFailure extends Failure {
       case DioExceptionType.cancel:
         return ServiceFailure('Request to server was cancelled');
       case DioExceptionType.connectionError:
-        return ServiceFailure('No Internet Connection, Please try again!');
+        return ServiceFailure('No Internet Connection');
       case DioExceptionType.unknown:
         return ServiceFailure('Opps Somthing Went Wrong!');
       default:
