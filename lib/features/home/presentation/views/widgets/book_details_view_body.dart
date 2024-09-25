@@ -1,4 +1,5 @@
 import 'package:bookly_app/core/utils/styles.dart';
+import 'package:bookly_app/features/home/data/models/book_model/book_model.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/book_details_list_view.dart';
 
 import 'package:bookly_app/features/home/presentation/views/widgets/book_rating.dart';
@@ -8,8 +9,8 @@ import 'package:bookly_app/features/home/presentation/views/widgets/custom_book_
 import 'package:flutter/material.dart';
 
 class BookDetailsViewBody extends StatelessWidget {
-  const BookDetailsViewBody({super.key});
-
+  const BookDetailsViewBody({super.key, required this.bookModel});
+  final BookModel bookModel;
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -25,17 +26,17 @@ class BookDetailsViewBody extends StatelessWidget {
                 //////////
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.2),
-                  child: const CustomBookImage(
-                    imageUrl:
-                        'https://www.google.com/imgres?q=blue&imgurl=https%3A%2F%2Fwww.geaves.com%2Fmedia%2Fcatalog%2Fproduct%2Fcache%2Facd115faf6a75f6594ab269049b631ed%2F3%2F1%2F3133_8.webp&imgrefurl=https%3A%2F%2Fwww.geaves.com%2Fsky-blue&docid=A3S3zzvErasj1M&tbnid=Dvgu7QserxCFGM&vet=12ahUKEwiBzZP_sdqIAxVF0QIHHeGMFu0QM3oECEwQAA..i&w=500&h=350&hcb=2&ved=2ahUKEwiBzZP_sdqIAxVF0QIHHeGMFu0QM3oECEwQAA',
+                  child: CustomBookImage(
+                    imageUrl: bookModel.volumeInfo.imageLinks?.thumbnail ?? '',
                   ),
                 ),
                 const SizedBox(
                   height: 43,
                 ),
-                const Text(
-                  'The Jungle Book',
+                Text(
+                  bookModel.volumeInfo.title!,
                   style: Styles.textStyle30,
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(
                   height: 6,
@@ -43,7 +44,7 @@ class BookDetailsViewBody extends StatelessWidget {
                 Opacity(
                   opacity: 0.7,
                   child: Text(
-                    'Rudyard Kipling',
+                    bookModel.volumeInfo.authors![0],
                     style: Styles.textStyle18.copyWith(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
@@ -53,9 +54,9 @@ class BookDetailsViewBody extends StatelessWidget {
                 const SizedBox(
                   height: 14,
                 ),
-                const BookRating(
-                  rating: 5,
-                  count: 250,
+                BookRating(
+                  rating: bookModel.volumeInfo.averageRating ?? 0,
+                  count: bookModel.volumeInfo.ratingsCount ?? 0,
                   mainAxisAlignment: MainAxisAlignment.center,
                 ),
                 const SizedBox(
