@@ -1,6 +1,5 @@
 import 'package:bookly_app/core/widgets/custom_error_widget.dart';
-import 'package:bookly_app/core/widgets/custom_loading_indicator.dart';
-import 'package:bookly_app/features/home/data/models/book_model/book_model.dart';
+
 import 'package:bookly_app/features/home/presentation/views/widgets/book_list_view_item.dart';
 import 'package:bookly_app/features/search/presentation/view_model/searched_books_cubit/searched_books_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,12 @@ class SearchResultListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SearchedBooksCubit, SearchedBooksState>(
       builder: (context, state) {
-        if (state is SearchedBooksSuccess) {
+        if (state is SearchedBooksInitial) {
+          return const Center(child: Text('Search for books'));
+        } else if (state is SearchedBooksSuccess) {
+          if (state.books.isEmpty) {
+            return const Center(child: Text('No results found.'));
+          }
           return ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: state.books.length,
@@ -27,9 +31,9 @@ class SearchResultListView extends StatelessWidget {
             },
           );
         } else if (state is SearchedBooksFailure) {
-          return CustomErrorWidget(errMessage: state.errMessage);
+          return const CustomErrorWidget(errMessage: '');
         } else {
-          return const CustomLoadingIndicator();
+          return const Text('');
         }
       },
     );
