@@ -1,20 +1,36 @@
+import 'package:bookly_app/core/widgets/custom_error_widget.dart';
+import 'package:bookly_app/core/widgets/custom_loading_indicator.dart';
+import 'package:bookly_app/features/home/data/models/book_model/book_model.dart';
 import 'package:bookly_app/features/home/presentation/views/widgets/book_list_view_item.dart';
+import 'package:bookly_app/features/search/presentation/view_model/searched_books_cubit/searched_books_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchResultListView extends StatelessWidget {
   const SearchResultListView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: 10,
-      itemBuilder: (BuildContext context, int index) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Text('data'),
-          // BookListViewItem(),
-        );
+    return BlocBuilder<SearchedBooksCubit, SearchedBooksState>(
+      builder: (context, state) {
+        if (state is SearchedBooksSuccess) {
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: state.books.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: BookListViewItem(
+                  bookModel: state.books[index],
+                ),
+              );
+            },
+          );
+        } else if (state is SearchedBooksFailure) {
+          return CustomErrorWidget(errMessage: state.errMessage);
+        } else {
+          return const CustomLoadingIndicator();
+        }
       },
     );
   }
